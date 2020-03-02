@@ -43,6 +43,7 @@ async fn awc_test() -> Bytes {
 		.await
 		.expect("awc get send")
 		.body()
+		.limit(1024*1024*1024)
 		.await
 		.expect("awc body")
 }
@@ -56,17 +57,19 @@ async fn reqwest_test() -> Bytes {
 		.expect("reqwest bytes")
 }
 
-pub fn pool_benches() {
+pub fn web_clients_benches() {
     let mut criterion: ::criterion::Criterion<_> =
-		::criterion::Criterion::default().configure_from_args();
+		::criterion::Criterion::default().configure_from_args()
+		.sample_size(10).nresamples(2).confidence_level(0.5).significance_level(0.5)
+		.measurement_time(std::time::Duration::from_secs(10)).warm_up_time(std::time::Duration::from_secs(10));
 
 	let mut rt = actix_rt::System::new("test");
 
 	bench_fn(&mut criterion, &mut rt, awc_test, "awc");
-	bench_fn(&mut criterion, &mut rt, reqwest_test, "awc");
+	bench_fn(&mut criterion, &mut rt, reqwest_test, "reqwest");
 	bench_fn(&mut criterion, &mut rt, awc_test, "awc");
-	bench_fn(&mut criterion, &mut rt, reqwest_test, "awc");
+	bench_fn(&mut criterion, &mut rt, reqwest_test, "reqwest");
 }
 
-criterion_main!(pool_benches);
+criterion_main!(web_clients_benches);
 
