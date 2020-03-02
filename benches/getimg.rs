@@ -1,11 +1,12 @@
 // Benchmarking of benefit of readonly pool
 
 use criterion::{Criterion, criterion_main};
-use awc::Client;
 use bytes::Bytes;
 use actix_rt::SystemRunner;
 use reqwest;
 use std::future::Future;
+use actix_web::{client::{Client, Connector}};
+
 
 const URL: &'static str = "https://upload.wikimedia.org/wikipedia/commons/f/ff/Pizigani_1367_Chart_10MB.jpg";
 
@@ -35,14 +36,34 @@ where
 	});
 }
 
+use openssl::ssl::{SslConnector, SslMethod};
+
 async fn awc_test() -> Bytes {
+	let builder = SslConnector::builder(SslMethod::tls()).unwrap();
+
+	let client = Client::build()
+		.connector(Connector::new().ssl(builder.build()).finish())
+		.finish();
+
+	client
+		.get(URL)
+		.send()
+		.await
+		.expect("awc get send")
+		.body()
+		.limit(20_000_000)
+		.await
+		.expect("awc body")
+}
+
+async fn awc_test_default() -> Bytes {
 	Client::default()
 		.get(URL)
 		.send()
 		.await
 		.expect("awc get send")
 		.body()
-		.limit(1024*1024*1024)
+		.limit(20_000_000)
 		.await
 		.expect("awc body")
 }
@@ -63,8 +84,9 @@ pub fn web_clients_benches() {
 
 	let mut rt = actix_rt::System::new("test");
 
-	bench_fn(&mut criterion, &mut rt, reqwest_test, "reqwest");
 	bench_fn(&mut criterion, &mut rt, awc_test, "awc");
+	bench_fn(&mut criterion, &mut rt, awc_test_default, "awc");
+	bench_fn(&mut criterion, &mut rt, reqwest_test, "reqwest");
 }
 
 criterion_main!(web_clients_benches);
