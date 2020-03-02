@@ -16,7 +16,7 @@ where
 	// start benchmark loops
 	criterion.bench_function(name, move |b| {
 		b.iter_custom(|iters| {
-			let elapsed = rt.block_on(async move {
+			rt.block_on(async move {
 				let mut total = 0;
 
 				let start = std::time::Instant::now();
@@ -27,11 +27,10 @@ where
 		
 				let elapsed = start.elapsed();
 				println!("Throughput {}B/s", total * 1_000 / elapsed.as_millis() as usize);
+				println!("Iters {} total {} elapsed {}ms", iters, total, elapsed.as_millis());
 
 				elapsed
-			});
-			// check that at least first request succeeded
-			elapsed
+			})
 		})
 	});
 }
@@ -60,15 +59,12 @@ async fn reqwest_test() -> Bytes {
 pub fn web_clients_benches() {
     let mut criterion: ::criterion::Criterion<_> =
 		::criterion::Criterion::default().configure_from_args()
-		.sample_size(10).nresamples(2).confidence_level(0.5).significance_level(0.5)
-		.measurement_time(std::time::Duration::from_secs(10)).warm_up_time(std::time::Duration::from_secs(10));
+		.sample_size(10);
 
 	let mut rt = actix_rt::System::new("test");
 
-	bench_fn(&mut criterion, &mut rt, awc_test, "awc");
 	bench_fn(&mut criterion, &mut rt, reqwest_test, "reqwest");
 	bench_fn(&mut criterion, &mut rt, awc_test, "awc");
-	bench_fn(&mut criterion, &mut rt, reqwest_test, "reqwest");
 }
 
 criterion_main!(web_clients_benches);
