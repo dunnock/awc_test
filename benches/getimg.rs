@@ -26,7 +26,7 @@ where
 				}
 		
 				let elapsed = start.elapsed();
-				println!("Throughput {}B/s", total * 1_000_000 / elapsed.as_micros() as usize);
+				println!("Throughput {}B/s", total * 1_000 / elapsed.as_millis() as usize);
 
 				elapsed
 			});
