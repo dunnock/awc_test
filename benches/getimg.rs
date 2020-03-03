@@ -40,7 +40,7 @@ use openssl::ssl::{SslConnector, SslMethod};
 
 async fn awc_test_openssl() -> Bytes {
 	let mut builder = SslConnector::builder(SslMethod::tls()).unwrap();
-//	builder.set_alpn_protos(b"\x02h2\x08http/1.1").unwrap(); 
+	builder.set_alpn_protos(b"\x02h2\x08http/1.1").unwrap(); 
 
 	let client = Client::build()
 		.connector(Connector::new().ssl(builder.build()).finish())
@@ -73,18 +73,6 @@ async fn awc_test_rustls() -> Bytes {
 		.finish();
 
 	client
-		.get(URL)
-		.send()
-		.await
-		.expect("awc get send")
-		.body()
-		.limit(20_000_000)
-		.await
-		.expect("awc body")
-}
-
-async fn awc_test_rustls_default() -> Bytes {
-	Client::default()
 		.get(URL)
 		.send()
 		.await
@@ -130,9 +118,8 @@ pub fn web_clients_benches() {
 	let mut rt = actix_rt::System::new("test");
 
 	bench_fn(&mut criterion, &mut rt, awc_test_rustls, "awc_test_rustls");
-	bench_fn(&mut criterion, &mut rt, awc_test_rustls_default, "awc_test_rustls_default");
-	//bench_fn(&mut criterion, &mut rt, awc_test_openssl, "awc_test_openssl");
-	//bench_fn(&mut criterion, &mut rt, awc_test_default, "awc_test_default");
+	bench_fn(&mut criterion, &mut rt, awc_test_openssl, "awc_test_openssl");
+	bench_fn(&mut criterion, &mut rt, awc_test_default, "awc_test_default");
 	bench_fn(&mut criterion, &mut rt, reqwest_test, "reqwest");
 }
 
