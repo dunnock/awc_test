@@ -7,12 +7,13 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-actix-web = { version = "2.0.0", features = ["openssl"] }
 actix-rt = "1.0.0"
-awc = { version = "1.0.1", features = ["rustls"] }
 bytes = "0.5.4"
 futures = "0.3.4"
 reqwest = { version = "0.10.3", default_features = false, features = ["rustls-tls"] }
+actix-web = { version = "2.0.0", features = ["openssl"] }
+awc = { version = "1.0.1", features = ["rustls"] }
+actix-http = { version = "2.0.0-alpha.1", features = ["openssl"] }
 
 [dev-dependencies]
 criterion = "0.3"
@@ -21,9 +22,9 @@ rustls = "0.16"
 webpki-roots = "0.19"
 
 [patch.crates-io]
-awc = { path = "../actix-web/awc" }
-actix-web = { path = "../actix-web" }
-actix-http = { path = "../actix-web/actix-http" }
+actix-web = { version = "2.0.0", features = ["openssl"], git = "https://github.com/dunnock/actix-web", branch = "h2-speed-1393" }
+awc = { version = "1.0.1", features = ["rustls"], git = "https://github.com/dunnock/actix-web", branch = "h2-speed-1393" }
+actix-http = { version = "2.0.0-alpha.1", features = ["openssl"], git = "https://github.com/dunnock/actix-web", branch = "h2-speed-1393" }
 
 [[bench]]
 name = "getimg"

@@ -42,6 +42,7 @@ dependencies = [
 [[package]]
 name = "actix-http"
 version = "2.0.0-alpha.1"
+source = "git+https://github.com/dunnock/actix-web?branch=h2-speed-1393#8546b412d9eb9d278ca12dcbb5163c6894cbd189"
 dependencies = [
  "actix-codec",
  "actix-connect",
@@ -222,6 +223,7 @@ dependencies = [
 [[package]]
 name = "actix-web"
 version = "2.0.0"
+source = "git+https://github.com/dunnock/actix-web?branch=h2-speed-1393#8546b412d9eb9d278ca12dcbb5163c6894cbd189"
 dependencies = [
  "actix-codec",
  "actix-http",
@@ -323,6 +325,7 @@ checksum = "f8aac770f1885fd7e387acedd76065302551364496e46b3dd00860b2f8359b9d"
 [[package]]
 name = "awc"
 version = "1.0.1"
+source = "git+https://github.com/dunnock/actix-web?branch=h2-speed-1393#8546b412d9eb9d278ca12dcbb5163c6894cbd189"
 dependencies = [
  "actix-codec",
  "actix-http",
@@ -1893,6 +1896,7 @@ dependencies = [
 name = "testing"
 version = "0.1.0"
 dependencies = [
+ "actix-http",
  "actix-rt",
  "actix-web",
  "awc",

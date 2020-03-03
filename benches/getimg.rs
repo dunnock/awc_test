@@ -83,19 +83,8 @@ async fn awc_test_rustls() -> Bytes {
 		.expect("awc body")
 }
 
-async fn awc_test_rustls_protocols() -> Bytes {
-	let protos = vec![b"h2".to_vec(), b"http/1.1".to_vec()];
-	let mut config = ClientConfig::new();
-	config.set_protocols(&protos);
-	config
-		.root_store
-		.add_server_trust_anchors(&webpki_roots::TLS_SERVER_ROOTS);
-
-	let client = Client::build()
-		.connector(Connector::new().rustls(Arc::new(config)).finish())
-		.finish();
-
-	client
+async fn awc_test_rustls_default() -> Bytes {
+	Client::default()
 		.get(URL)
 		.send()
 		.await
@@ -141,7 +130,7 @@ pub fn web_clients_benches() {
 	let mut rt = actix_rt::System::new("test");
 
 	bench_fn(&mut criterion, &mut rt, awc_test_rustls, "awc_test_rustls");
-	bench_fn(&mut criterion, &mut rt, awc_test_rustls_protocols, "awc_test_rustls_protocols");
+	bench_fn(&mut criterion, &mut rt, awc_test_rustls_default, "awc_test_rustls_default");
 	//bench_fn(&mut criterion, &mut rt, awc_test_openssl, "awc_test_openssl");
 	//bench_fn(&mut criterion, &mut rt, awc_test_default, "awc_test_default");
 	bench_fn(&mut criterion, &mut rt, reqwest_test, "reqwest");
