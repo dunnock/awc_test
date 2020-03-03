@@ -17,14 +17,17 @@ reqwest = { version = "0.10.3", default_features = false, features = ["rustls-tl
 [dev-dependencies]
 criterion = "0.3"
 openssl = "0.10.28"
-rustls = "0.17"
+rustls = "0.16"
 webpki-roots = "0.19"
 
 [patch.crates-io]
-awc = { git = "https://github.com/dunnock/actix-web", branch = "rustls_0_17" }
-actix-web = { git = "https://github.com/dunnock/actix-web", branch = "rustls_0_17" }
-actix-http = { git = "https://github.com/dunnock/actix-web", branch = "rustls_0_17" }
+awc = { path = "../actix-web/awc" }
+actix-web = { path = "../actix-web" }
+actix-http = { path = "../actix-web/actix-http" }
 
 [[bench]]
 name = "getimg"
 harness = false
+
+[profile.release]
+debug = true

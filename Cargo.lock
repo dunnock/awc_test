@@ -18,7 +18,8 @@ dependencies = [
 [[package]]
 name = "actix-connect"
 version = "1.0.2"
-source = "git+https://github.com/actix/actix-net#6628688bcfc0cae9f422ba40729fa8389785f281"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c95cc9569221e9802bf4c377f6c18b90ef10227d787611decf79fd47d2a8e76c"
 dependencies = [
  "actix-codec",
  "actix-rt",
@@ -30,9 +31,9 @@ dependencies = [
  "http",
  "log",
  "openssl",
- "rustls",
+ "rustls 0.16.0",
  "tokio-openssl",
- "tokio-rustls",
+ "tokio-rustls 0.12.2",
  "trust-dns-proto",
  "trust-dns-resolver",
  "webpki",
@@ -40,8 +41,7 @@ dependencies = [
 
 [[package]]
 name = "actix-http"
-version = "1.0.1"
-source = "git+https://github.com/dunnock/actix-web?branch=rustls_0_17#8234057ce814d10c501051e32bbfa79f948b807d"
+version = "2.0.0-alpha.1"
 dependencies = [
  "actix-codec",
  "actix-connect",
@@ -50,7 +50,7 @@ dependencies = [
  "actix-threadpool",
  "actix-tls",
  "actix-utils",
- "base64",
+ "base64 0.11.0",
  "bitflags",
  "brotli2",
  "bytes",
@@ -182,7 +182,8 @@ dependencies = [
 [[package]]
 name = "actix-tls"
 version = "1.0.0"
-source = "git+https://github.com/actix/actix-net#6628688bcfc0cae9f422ba40729fa8389785f281"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a4e5b4faaf105e9a6d389c606c298dcdb033061b00d532af9df56ff3a54995a8"
 dependencies = [
  "actix-codec",
  "actix-rt",
@@ -193,9 +194,9 @@ dependencies = [
  "futures",
  "log",
  "openssl",
- "rustls",
+ "rustls 0.16.0",
  "tokio-openssl",
- "tokio-rustls",
+ "tokio-rustls 0.12.2",
  "webpki",
  "webpki-roots 0.17.0",
 ]
@@ -221,7 +222,6 @@ dependencies = [
 [[package]]
 name = "actix-web"
 version = "2.0.0"
-source = "git+https://github.com/dunnock/actix-web?branch=rustls_0_17#8234057ce814d10c501051e32bbfa79f948b807d"
 dependencies = [
  "actix-codec",
  "actix-http",
@@ -323,13 +323,12 @@ checksum = "f8aac770f1885fd7e387acedd76065302551364496e46b3dd00860b2f8359b9d"
 [[package]]
 name = "awc"
 version = "1.0.1"
-source = "git+https://github.com/dunnock/actix-web?branch=rustls_0_17#8234057ce814d10c501051e32bbfa79f948b807d"
 dependencies = [
  "actix-codec",
  "actix-http",
  "actix-rt",
  "actix-service",
- "base64",
+ "base64 0.11.0",
  "bytes",
  "derive_more",
  "futures-core",
@@ -338,7 +337,7 @@ dependencies = [
  "openssl",
  "percent-encoding",
  "rand",
- "rustls",
+ "rustls 0.16.0",
  "serde",
  "serde_json",
  "serde_urlencoded",
@@ -364,6 +363,15 @@ checksum = "5d6575f128516de27e3ce99689419835fce9643a9b215a14d2b5b685be018491"
 dependencies = [
  "cc",
  "libc",
+]
+
+[[package]]
+name = "base64"
+version = "0.10.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0b25d992356d2eb0ed82172f5248873db5560c4721f564b13cb5193bda5e668e"
+dependencies = [
+ "byteorder",
 ]
 
 [[package]]
@@ -1017,10 +1025,10 @@ dependencies = [
  "futures-util",
  "hyper",
  "log",
- "rustls",
+ "rustls 0.17.0",
  "rustls-native-certs",
  "tokio",
- "tokio-rustls",
+ "tokio-rustls 0.13.0",
  "webpki",
 ]
 
@@ -1550,9 +1558,9 @@ dependencies = [
 
 [[package]]
 name = "regex-syntax"
-version = "0.6.15"
+version = "0.6.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7246cd0a0a6ec2239a5405b2b16e3f404fa0dcc6d28f5f5b877bf80e33e0f294"
+checksum = "1132f845907680735a84409c3bebc64d1364a5683ffbce899550cd09d5eaefc1"
 
 [[package]]
 name = "reqwest"
@@ -1560,7 +1568,7 @@ version = "0.10.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a9f62f24514117d09a8fc74b803d3d65faa27cea1c7378fb12b0d002913f3831"
 dependencies = [
- "base64",
+ "base64 0.11.0",
  "bytes",
  "encoding_rs",
  "futures-core",
@@ -1576,12 +1584,12 @@ dependencies = [
  "mime_guess",
  "percent-encoding",
  "pin-project-lite",
- "rustls",
+ "rustls 0.17.0",
  "serde",
  "serde_urlencoded",
  "time 0.1.42",
  "tokio",
- "tokio-rustls",
+ "tokio-rustls 0.13.0",
  "url",
  "wasm-bindgen",
  "wasm-bindgen-futures",
@@ -1632,11 +1640,24 @@ dependencies = [
 
 [[package]]
 name = "rustls"
+version = "0.16.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b25a18b1bf7387f0145e7f8324e700805aade3842dd3db2e74e4cdeb4677c09e"
+dependencies = [
+ "base64 0.10.1",
+ "log",
+ "ring",
+ "sct",
+ "webpki",
+]
+
+[[package]]
+name = "rustls"
 version = "0.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c0d4a31f5d68413404705d6982529b0e11a9aacd4839d1d6222ee3b8cb4015e1"
 dependencies = [
- "base64",
+ "base64 0.11.0",
  "log",
  "ring",
  "sct",
@@ -1650,7 +1671,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a75ffeb84a6bd9d014713119542ce415db3a3e4748f0bfce1e1416cd224a23a5"
 dependencies = [
  "openssl-probe",
- "rustls",
+ "rustls 0.17.0",
  "schannel",
  "security-framework",
 ]
@@ -1880,7 +1901,7 @@ dependencies = [
  "futures",
  "openssl",
  "reqwest",
- "rustls",
+ "rustls 0.16.0",
  "webpki-roots 0.19.0",
 ]
 
@@ -1999,12 +2020,24 @@ dependencies = [
 
 [[package]]
 name = "tokio-rustls"
+version = "0.12.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "141afec0978abae6573065a48882c6bae44c5cc61db9b511ac4abf6a09bfd9cc"
+dependencies = [
+ "futures-core",
+ "rustls 0.16.0",
+ "tokio",
+ "webpki",
+]
+
+[[package]]
+name = "tokio-rustls"
 version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4adb8b3e5f86b707f1b54e7c15b6de52617a823608ccda98a15d3a24222f265a"
 dependencies = [
  "futures-core",
- "rustls",
+ "rustls 0.17.0",
  "tokio",
  "webpki",
 ]

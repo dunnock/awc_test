@@ -119,7 +119,13 @@ async fn awc_test_default() -> Bytes {
 }
 
 async fn reqwest_test() -> Bytes {
-	reqwest::get(URL)
+	let client = reqwest::ClientBuilder::new()
+		.http2_prior_knowledge()
+		.build()
+		.unwrap();
+	client
+		.get(URL)
+		.send()
 		.await
 		.expect("reqwest get")
 		.bytes()
@@ -135,9 +141,9 @@ pub fn web_clients_benches() {
 	let mut rt = actix_rt::System::new("test");
 
 	bench_fn(&mut criterion, &mut rt, awc_test_rustls, "awc_test_rustls");
-	bench_fn(&mut criterion, &mut rt, awc_test_rustls, "awc_test_rustls_protocols");
-	bench_fn(&mut criterion, &mut rt, awc_test_openssl, "awc_test_openssl");
-	bench_fn(&mut criterion, &mut rt, awc_test_default, "awc_test_default");
+	bench_fn(&mut criterion, &mut rt, awc_test_rustls_protocols, "awc_test_rustls_protocols");
+	//bench_fn(&mut criterion, &mut rt, awc_test_openssl, "awc_test_openssl");
+	//bench_fn(&mut criterion, &mut rt, awc_test_default, "awc_test_default");
 	bench_fn(&mut criterion, &mut rt, reqwest_test, "reqwest");
 }
 
