@@ -22,9 +22,9 @@ rustls = "0.16"
 webpki-roots = "0.19"
 
 [patch.crates-io]
-actix-web = { version = "2.0.0", features = ["openssl"], git = "https://github.com/dunnock/actix-web", branch = "h2-speed-1393" }
-awc = { version = "1.0.1", features = ["rustls"], git = "https://github.com/dunnock/actix-web", branch = "h2-speed-1393" }
-actix-http = { version = "2.0.0-alpha.1", features = ["openssl"], git = "https://github.com/dunnock/actix-web", branch = "h2-speed-1393" }
+actix-web = { version = "2.0.0", features = ["openssl"], git = "https://github.com/dunnock/actix-web", branch = "h2-client-config" }
+awc = { version = "1.0.1", features = ["rustls"], git = "https://github.com/dunnock/actix-web", branch = "h2-client-config" }
+actix-http = { version = "2.0.0-alpha.1", features = ["openssl"], git = "https://github.com/dunnock/actix-web", branch = "h2-client-config" }
 
 [[bench]]
 name = "getimg"

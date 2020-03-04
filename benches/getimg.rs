@@ -95,6 +95,50 @@ async fn awc_test_default() -> Bytes {
 		.expect("awc body")
 }
 
+async fn awc_test_http1() -> Bytes {
+	Client::build()
+		.max_http_version(1)
+		.finish()
+		.get(URL)
+		.send()
+		.await
+		.expect("awc get send")
+		.body()
+		.limit(20_000_000)
+		.await
+		.expect("awc body")
+}
+
+async fn awc_test_window_2mb() -> Bytes {
+	Client::build()
+		.initial_window_size(2 * 1024 * 1024)
+		.initial_connection_window_size(3 * 1024 * 1024)
+		.finish()
+		.get(URL)
+		.send()
+		.await
+		.expect("awc get send")
+		.body()
+		.limit(20_000_000)
+		.await
+		.expect("awc body")
+}
+
+async fn awc_test_window_500kb() -> Bytes {
+	Client::build()
+		.initial_window_size(500 * 1024)
+		.initial_connection_window_size(1 * 1024 * 1024)
+		.finish()
+		.get(URL)
+		.send()
+		.await
+		.expect("awc get send")
+		.body()
+		.limit(20_000_000)
+		.await
+		.expect("awc body")
+}
+
 async fn reqwest_test() -> Bytes {
 	let client = reqwest::ClientBuilder::new()
 		.http2_prior_knowledge()
@@ -120,6 +164,9 @@ pub fn web_clients_benches() {
 	bench_fn(&mut criterion, &mut rt, awc_test_rustls, "awc_test_rustls");
 	bench_fn(&mut criterion, &mut rt, awc_test_openssl, "awc_test_openssl");
 	bench_fn(&mut criterion, &mut rt, awc_test_default, "awc_test_default");
+	bench_fn(&mut criterion, &mut rt, awc_test_http1, "awc_test_http1");
+	bench_fn(&mut criterion, &mut rt, awc_test_window_2mb, "awc_test_window_2mb");
+	bench_fn(&mut criterion, &mut rt, awc_test_window_500kb, "awc_test_window_500kb");
 	bench_fn(&mut criterion, &mut rt, reqwest_test, "reqwest");
 }
 
